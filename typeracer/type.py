@@ -4,7 +4,7 @@ import sys
 import time
 import random
 
-
+#initialize pygame and set up text size and colours
 pyg.init()
 screen = pyg.display.set_mode((640, 480))
 COLOR_INACTIVE = pyg.Color('lightskyblue1')
@@ -16,7 +16,6 @@ testTexts = (
     "my local city has the best bars in the country",
     )
 
-startButton = False
 
 #HEADING AND LOGO
 
@@ -45,6 +44,8 @@ class InputBox:
             if self.rect.collidepoint(event.pos):
                 # Toggle the active variable.
                 self.active = not self.active
+                counting_thread = threading.Thread(target = stopwatch)
+                counting_thread.start()
             else:
                 self.active = False
             # Change the current color of the input box.
@@ -61,8 +62,6 @@ class InputBox:
                     self.text = self.text[:-1]
                 else:
                     self.text += event.unicode
-                    counting_thread = threading.Thread(target = stopwatch)
-                    counting_thread.start()
                     #Check if spacing divides axactly by 10, if so then start new line
                     textLength = len(self.text)
                     print("LENGTH = ",textLength)
@@ -147,7 +146,6 @@ def main():
 
 
     while not done:
-        global TIMERR
         for event in pyg.event.get():
             if event.type == pyg.QUIT:
                 done = True
